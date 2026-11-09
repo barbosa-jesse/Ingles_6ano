@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revisão de Inglês — Quiz 3º Trimestre</title>
+<style>
+:root{--primary:#1F4E5F;--primary-light:#2A6B80;--bg:#F4F7F8;--card-bg:#ffffff;--text:#1e293b;--border:#cbd5e1;--correct-bg:#dcfce7;--correct-border:#22c55e;--correct-text:#15803d;--wrong-bg:#fee2e2;--wrong-border:#ef4444;--wrong-text:#b91c1c;--hint-bg:#fef3c7;--hint-border:#f59e0b;}
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:12px;}
+.quiz-container{width:100%;max-width:540px;background:var(--card-bg);border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.08);padding:20px;display:flex;flex-direction:column;gap:14px;}
+.header{display:flex;align-items:center;gap:12px;}
+.header-icon{width:44px;height:44px;border-radius:50%;background:var(--primary);flex-shrink:0;box-shadow:inset 0 0 0 6px rgba(255,255,255,.25);}
+.header-info h1{font-size:1.35rem;color:var(--primary);font-weight:700;}
+.header-info p{font-size:.85rem;color:#64748b;}
+.header-info p.quiz-meta{font-size:.78rem;color:#64748b;white-space:nowrap;letter-spacing:.01em;overflow:hidden;text-overflow:ellipsis;}
+.progress-box{display:flex;flex-direction:column;gap:6px;}
+.progress-bar-bg{height:8px;background:#e2e8f0;border-radius:10px;overflow:hidden;}
+.progress-bar-fill{height:100%;width:0%;background:var(--primary-light);transition:width .3s ease;}
+.progress-stats{display:flex;justify-content:space-between;font-size:.85rem;font-weight:600;color:#64748b;}
+.tag{align-self:flex-start;background:#dbeafe;color:#1F4E5F;border:1px solid #93c5fd;padding:4px 10px;border-radius:15px;font-size:.8rem;font-weight:600;}
+.review-tag{align-self:flex-start;background:#fef3c7;color:#78350f;border:1px solid #f59e0b;padding:4px 10px;border-radius:15px;font-size:.8rem;font-weight:600;display:none;}
+.question-text{font-size:.98rem;font-weight:700;color:var(--primary);line-height:1.4;white-space:pre-line;}
+.options-container{display:flex;flex-direction:column;gap:8px;}
+.option-btn{background:#fff;border:2px solid var(--border);border-radius:12px;padding:12px 14px;text-align:left;font-size:.88rem;color:var(--text);cursor:pointer;display:block;width:100%;line-height:1.35;min-height:44px;transition:background-color .2s,border-color .2s;}
+.option-btn:active{background-color:#f1f5f9;}
+.option-btn:disabled{cursor:default;}
+.option-btn.correct{background-color:var(--correct-bg)!important;border-color:var(--correct-border)!important;color:var(--correct-text)!important;font-weight:600;}
+.option-btn.wrong{background-color:var(--wrong-bg)!important;border-color:var(--wrong-border)!important;color:var(--wrong-text)!important;}
+.footer-hint-section{margin-top:4px;display:flex;flex-direction:column;gap:6px;}
+.hint-btn{background:transparent;border:none;color:#b45309;font-weight:600;font-size:.85rem;cursor:pointer;text-align:left;padding:2px 0;display:inline-block;}
+.hint-box{background:var(--hint-bg);border:1px solid var(--hint-border);color:#78350f;padding:10px 12px;border-radius:10px;font-size:.85rem;line-height:1.35;display:none;}
+.feedback-box{padding:12px;border-radius:10px;font-size:.88rem;line-height:1.35;display:none;}
+.feedback-box.correct{background:var(--correct-bg);border:1px solid var(--correct-border);color:var(--correct-text);}
+.feedback-box.wrong{background:var(--wrong-bg);border:1px solid var(--wrong-border);color:var(--wrong-text);}
+.feedback-box strong{display:block;margin-bottom:4px;}
+.action-btn{background:#0f172a;color:#fff;border:none;border-radius:12px;padding:14px;font-size:.95rem;font-weight:700;cursor:pointer;width:100%;text-align:center;margin-top:6px;}
+.action-btn.secondary{background:#fff;border:2px solid var(--primary);color:var(--primary);}
+.action-btn.primary-teal{background:var(--primary);color:#fff;}
+.action-btn:disabled{opacity:.5;cursor:not-allowed;}
+#next-btn{display:none;}
+.results-screen{text-align:center;display:none;flex-direction:column;gap:16px;padding:10px 0;}
+.results-screen h2{color:var(--primary);font-size:1.3rem;}
+.results-screen > p{color:#64748b;font-size:.9rem;}
+.score-circle{width:130px;height:130px;border-radius:50%;background:var(--primary-light);color:#fff;display:flex;flex-direction:column;justify-content:center;align-items:center;margin:0 auto;font-size:1.8rem;font-weight:800;}
+.score-circle span{font-size:.75rem;font-weight:400;}
+#final-message{font-size:.95rem;font-weight:600;color:var(--primary);}
+.part-summary{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:12px;text-align:left;font-size:.85rem;line-height:1.5;color:#334155;}
+.part-summary strong{color:var(--primary);}
+.part-summary .note{display:block;margin-top:8px;font-size:.75rem;color:#64748b;}
+.review-screen{display:none;flex-direction:column;gap:14px;}
+.review-title{font-size:1.2rem;color:var(--primary);font-weight:700;}
+.review-sub{font-size:.85rem;color:#64748b;}
+.module-summary{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px;}
+.module-summary h3{font-size:.95rem;color:var(--primary);font-weight:700;}
+.mod-row{display:flex;flex-direction:column;gap:4px;}
+.mod-row-head{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;color:#334155;font-weight:600;gap:8px;}
+.mod-row-head .badge{color:#1F4E5F;font-size:.72rem;font-weight:700;}
+.mod-bar-bg{height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden;}
+.mod-bar-fill{height:100%;border-radius:4px;background:#7fb3c4;}
+.mod-bar-fill.top{background:#1F4E5F;}
+.mod-note{font-size:.82rem;color:#475569;line-height:1.45;border-top:1px solid #e2e8f0;padding-top:10px;}
+.review-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;}
+.review-card .rc-head{font-size:.78rem;font-weight:700;color:#1F4E5F;}
+.review-card .rc-q{font-size:.9rem;font-weight:600;color:var(--text);line-height:1.4;white-space:pre-line;}
+.rc-answer{font-size:.85rem;line-height:1.4;padding:8px 10px;border-radius:8px;}
+.rc-answer .lbl{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;margin-bottom:2px;}
+.rc-answer.wrong{background:var(--wrong-bg);border:1px solid var(--wrong-border);color:var(--wrong-text);}
+.rc-answer.correct{background:var(--correct-bg);border:1px solid var(--correct-border);color:var(--correct-text);}
+.rc-why{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;font-size:.83rem;line-height:1.45;color:#334155;}
+.rc-why .lbl{display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:#64748b;margin-bottom:3px;}
+.empty-msg{background:var(--correct-bg);border:1px solid var(--correct-border);color:var(--correct-text);padding:14px;border-radius:12px;font-size:.9rem;text-align:center;line-height:1.4;}
+.footer-note{font-size:.75rem;color:#64748b;text-align:center;line-height:1.4;}
+</style>
+</head>
+<body>
+<div class="quiz-container">
+  <div class="header">
+    <div class="header-icon" aria-hidden="true"></div>
+    <div class="header-info">
+      <h1>📘 Revisão de Inglês</h1>
+      <p>6º Ano — Sistema Plurall (Units 4, 5 e 6)</p>
+      <p class="quiz-meta">20 questões · 12 conteúdo e gramática · 4 interpretação · 4 mistas</p>
+    </div>
+  </div>
+
+  <div id="quiz-screen" style="display:flex;flex-direction:column;gap:14px;">
+    <div id="review-mode-tag" class="review-tag">Modo revisão — apenas as questões que você errou</div>
+
+    <div class="progress-box">
+      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+      <div class="progress-stats">
+        <span id="question-number">Questão 1 de 20</span>
+        <span id="score-text">0 acertos</span>
+      </div>
+    </div>
+
+    <div id="module-tag" class="tag">Unit 4 — Eating Habits</div>
+    <div id="question-text" class="question-text"></div>
+    <div id="options-container" class="options-container"></div>
+
+    <div class="footer-hint-section">
+      <button id="hint-toggle-btn" class="hint-btn" onclick="toggleHint()">💡 Precisa de uma dica?</button>
+      <div id="hint-box" class="hint-box"></div>
+    </div>
+
+    <div id="feedback-box" class="feedback-box"></div>
+    <button id="next-btn" class="action-btn" onclick="handleNextAction()">Próxima Questão</button>
+  </div>
+
+  <div id="results-screen" class="results-screen">
+    <h2>🎯 Revisão concluída</h2>
+    <p id="results-sub">Veja seu desempenho por unidade.</p>
+    <div id="final-score" class="score-circle"></div>
+    <p id="final-message"></p>
+    <div id="part-summary" class="part-summary"></div>
+    <button id="btn-review" class="action-btn secondary" onclick="showReview()">📋 Revisar meus erros</button>
+    <button id="btn-redo-errors" class="action-btn primary-teal" onclick="startReviewErrors()">🔁 Refazer só os erros</button>
+    <button id="btn-full" class="action-btn" onclick="startFullQuiz()" style="display:none">Voltar ao quiz completo</button>
+    <button id="btn-restart" class="action-btn" onclick="restartQuiz()">🔄 Reiniciar Quiz</button>
+  </div>
+
+  <div id="review-screen" class="review-screen">
+    <div>
+      <div class="review-title">📋 Revisão dos seus erros</div>
+      <div id="review-sub" class="review-sub"></div>
+    </div>
+    <div id="module-summary-box"></div>
+    <button id="btn-redo-errors-2" class="action-btn primary-teal" onclick="startReviewErrors()">🔁 Refazer só os erros</button>
+    <div id="review-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+    <button class="action-btn secondary" onclick="backToResults()">← Voltar ao resultado</button>
+  </div>
+
+  <p class="footer-note">Quiz offline • Conteúdo de revisão para o 3º trimestre</p>
+</div>
+
+<script>
+var questions = [
+{module:"Unit 4 — Eating Habits",part:1,question:"Segundo a Unit 4, qual refeição é considerada a principal e mais pesada do dia nos hábitos americanos e ingleses?",options:["a) Breakfast","b) Lunch","c) Dinner","d) Snack"],correct:2,hint:"Pense em qual refeição a unidade chama de principal.",explanation:"Dinner é a refeição principal e mais pesada. Breakfast e lunch são mais leves, e snack não é tratado na unidade."},
+{module:"Unit 4 — Eating Habits",part:1,question:"Qual alternativa descreve corretamente a base da alimentação asiática apresentada na Unit 4?",options:["a) Carne vermelha todos os dias e molhos gordurosos","b) Grãos integrais, vegetais, arroz e noodles","c) Pão branco, manteiga e queijos","d) Batata frita, bacon e salsicha"],correct:1,hint:"A unidade fala de uma alimentação low in fat, com base vegetal.",explanation:"A base é de grãos integrais, vegetais, arroz e noodles. Carne vermelha é rara, e as opções com bacon e queijos descrevem o café da manhã americano, não a Ásia."},
+{module:"Unit 4 — Eating Habits",part:1,question:"Na Unit 4, o modo de preparo chamado deep-fried significa que o alimento foi:",options:["a) Cozido no vapor","b) Servido cru","c) Mexido rapidamente na frigideira","d) Frito em imersão, mergulhado no óleo"],correct:3,hint:"Deep quer dizer fundo, profundo.",explanation:"Deep-fried é frito em imersão no óleo. Steamed é no vapor, raw é cru e stir-fried é mexido na frigideira."},
+{module:"Unit 4 — Eating Habits",part:1,question:"Qual frase usa corretamente o USED TO na forma negativa?",options:["a) I didn't used to eat cereal.","b) I didn't use to eat cereal.","c) I don't used to eat cereal.","d) I not used to eat cereal."],correct:1,hint:"Quando o auxiliar did aparece, o used perde o d.",explanation:"Com o auxiliar didn't, o verbo volta à forma base: didn't use to. A alternativa a) é o erro clássico de manter o d depois do didn't."},
+{module:"Unit 4 — Eating Habits",part:1,question:"Complete corretamente: '_____ came to the party, so the room was empty.'",options:["a) Anybody","b) Somebody","c) Nobody","d) Anyone"],correct:2,hint:"A segunda parte da frase diz que a sala estava vazia.",explanation:"Nobody significa ninguém e é usado em frase afirmativa com sentido negativo. Anybody e anyone aparecem em perguntas e negativas, e somebody indicaria que alguém veio."},
+{module:"Unit 4 — Eating Habits",part:1,question:"Na Unit 4, qual derivado de soja é típico do Japão e da Coreia?",options:["a) Maple syrup","b) Hash browns","c) Oatmeal","d) Soy sauce"],correct:3,hint:"Procure o termo que tem soy no nome.",explanation:"Soy sauce é o molho de soja, junto com tofu e soy paste. Maple syrup, hash browns e oatmeal são itens do café da manhã americano."},
+{module:"Unit 5 — Mysterious Places",part:1,question:"O Triângulo das Bermudas é uma área localizada:",options:["a) No Oceano Atlântico, entre Miami, Porto Rico e Bermudas","b) No Oceano Pacífico, perto do Japão","c) No Mar Mediterrâneo, perto da Itália","d) No Oriente Médio, entre Jordânia e Israel"],correct:0,hint:"A unidade cita três pontos de referência, e um deles é uma cidade da Flórida.",explanation:"A área fica no Oceano Atlântico, entre Miami, Porto Rico e Bermudas. A opção do Oriente Médio descreve o Mar Morto, não o triângulo."},
+{module:"Unit 5 — Mysterious Places",part:1,question:"Por que é praticamente impossível afundar no Mar Morto?",options:["a) Porque a água é muito fria","b) Porque a água é oito vezes mais salgada e muito densa","c) Porque o lago é muito raso","d) Porque há muitas plantas na água"],correct:1,hint:"A unidade liga o sal à densidade da água.",explanation:"A água é oito vezes mais salgada que o oceano, o que a torna densa e fácil para flutuar. A unidade diz justamente que não há plantas nem peixes no local."},
+{module:"Unit 5 — Mysterious Places",part:1,question:"Segundo a Unit 5, o que aconteceu em 5 de dezembro de 1945 no Triângulo das Bermudas?",options:["a) Um navio foi resgatado com toda a tripulação","b) Cinco aviões desapareceram sem deixar vestígios","c) Uma tempestade destruiu a ilha de Bermudas","d) O local foi transformado em health resort"],correct:1,hint:"A data marca o início da fama do local.",explanation:"Nessa data, cinco aviões desapareceram sem vestígios, o que tornou a área famosa. O health resort é o Mar Morto, não o triângulo."},
+{module:"Unit 5 — Mysterious Places",part:1,question:"Qual frase concorda corretamente com uma afirmação, usando SO?",options:["a) I like the sea. — So I do.","b) I like the sea. — So am I.","c) I like the sea. — So do I.","d) I like the sea. — Neither do I."],correct:2,hint:"A ordem é so, depois o auxiliar, depois o sujeito. E o auxiliar precisa combinar com o verbo da frase.",explanation:"A frase usa like, um verbo comum, então o auxiliar é do: So do I. A opção a) inverte a ordem, e a b) usa am, que não combina com like."},
+{module:"Unit 5 — Mysterious Places",part:1,question:"Qual frase expressa exclusão, ou seja, nem uma coisa nem outra?",options:["a) You can choose either tea or juice.","b) There are neither plants nor fish.","c) You can choose both tea and juice.","d) There are either plants or fish."],correct:1,hint:"Exclusão significa que as duas opções estão fora.",explanation:"Neither...nor exclui as duas possibilidades. Either...or apresenta uma escolha entre duas opções positivas."},
+{module:"Unit 5 — Mysterious Places",part:1,question:"Na Unit 5, o Mar Morto é usado como health resort porque as pessoas:",options:["a) Praticam natação competitiva no lago","b) Pescam peixes raros na região","c) Passam lama na pele e usam os cristais de sal","d) Constroem barcos com o sal da água"],correct:2,hint:"A unidade cita dois elementos que ficam na água e na praia.",explanation:"As pessoas usam a lama (mud) na pele e os cristais de sal (salt crystals) da praia. A unidade afirma que não há peixes no local, o que elimina a opção da pesca."},
+{module:"Unit 6 — Monuments",part:1,question:"Quem mandou construir o Taj Mahal e em memória de quem?",options:["a) Shah Jahan, em memória da esposa Mumtaz Mahal","b) Mumtaz Mahal, em memória do marido Shah Jahan","c) O governo da Índia, em memória dos trabalhadores","d) O Departamento de Defesa, em memória dos soldados"],correct:0,hint:"A unidade apresenta o monumento como uma história de amor.",explanation:"Foi o Imperador Shah Jahan, em memória da esposa Mumtaz Mahal, que morreu em 1631. A opção d) descreve o Pentágono."},
+{module:"Unit 6 — Monuments",part:1,question:"Quantos anos durou a construção do Taj Mahal, de 1632 a 1652?",options:["a) 5 anos","b) 16 meses","c) 20 anos","d) 100 anos"],correct:2,hint:"Faça a conta entre o ano de início e o ano de término.",explanation:"A construção durou 20 anos, de 1632 a 1652. Os 16 meses se referem ao Pentágono, não ao Taj Mahal."},
+{module:"Unit 6 — Monuments",part:1,question:"Qual frase está correta segundo a regra de Simple Past e Present Perfect?",options:["a) I have visited India in 2010.","b) I visited India in 2010.","c) I have visit India in 2010.","d) I did visited India in 2010."],correct:1,hint:"A frase diz quando aconteceu.",explanation:"Com data definida (in 2010), usa-se Simple Past: I visited. A opção a) é o erro clássico de usar Present Perfect com tempo definido."},
+{module:"Unit 6 — Monuments",part:1,question:"Qual é a forma correta da negativa no Present Perfect?",options:["a) I haven't went there.","b) I don't have gone there.","c) I haven't never been there.","d) I haven't been there."],correct:3,hint:"O Present Perfect usa have ou has mais o particípio do verbo.",explanation:"A forma correta é haven't + particípio: haven't been. A opção a) usa went, que é passado simples e não particípio, e a c) tem dupla negação."},
+{module:"Interpretação",part:2,question:"Leia o trecho:\n'In the United States, breakfast is often bigger than in Asia. People eat eggs, bacon and pancakes with maple syrup. In Japan and Korea, meals are low in fat and include tofu, vegetables and green tea.'\n\nDe acordo com o trecho, o que diferencia o café da manhã americano do asiático?",options:["a) O americano é mais leve e rápido","b) O asiático inclui mais carne vermelha","c) O americano é maior e inclui itens como bacon e pancakes","d) Os dois são exatamente iguais"],correct:2,hint:"O trecho começa comparando o tamanho das refeições.",explanation:"O texto diz que o café da manhã americano costuma ser maior e cita eggs, bacon e pancakes. O texto afirma que a alimentação asiática é low in fat e que a carne vermelha é rara."},
+{module:"Interpretação",part:2,question:"Leia o trecho:\n'The Dead Sea is not really a sea. It is a lake between Jordan, Israel and Palestine. Its water is eight times saltier than the ocean, so it is easy to float and hard to sink.'\n\nSegundo o trecho, por que é fácil flutuar no Mar Morto?",options:["a) Porque a água é doce e leve","b) Porque a água é oito vezes mais salgada que o oceano","c) Porque o lago é muito profundo","d) Porque há muitas ondas no local"],correct:1,hint:"O trecho usa a palavra so para ligar causa e consequência.",explanation:"O texto liga a alta salinidade à facilidade de flutuar. Profundidade e ondas não são mencionadas no trecho."},
+{module:"Interpretação",part:2,question:"Leia o trecho:\n'The Taj Mahal was built by Emperor Shah Jahan in memory of his wife, Mumtaz Mahal. She died in 1631. The construction took 20 years, 20,000 people and 1,000 elephants.'\n\nQual informação NÃO aparece no trecho?",options:["a) O nome do imperador","b) O ano da morte da esposa","c) O número de elefantes","d) O preço da entrada do monumento"],correct:3,hint:"Procure a informação que o texto não cita em nenhum momento.",explanation:"O trecho não menciona preço de entrada. Imperador, ano de 1631 e os 1.000 elefantes aparecem no texto."},
+{module:"Interpretação",part:2,question:"Leia o trecho:\n'The Pentagon was built in 1941, during World War II. It took only 16 months. The building has five floors and five sides, and it is the headquarters of the US Department of Defense.'\n\nDe onde vem o nome Pentagon?",options:["a) Do número de andares e de lados: cinco","b) Do nome do arquiteto que projetou o prédio","c) Da cidade onde fica o edifício","d) Do ano em que foi construído"],correct:0,hint:"A palavra penta significa cinco.",explanation:"O nome vem da forma: cinco andares e cinco lados. A cidade (Arlington) e o ano (1941) aparecem no texto, mas não explicam o nome."}
+];
+
+var activeQuestions = questions.slice();
+var currentIndex = 0;
+var score = 0;
+var answered = false;
+var userAnswers = [];
+var isReviewMode = false;
+
+var CATEGORIES = ["Unit 4 — Eating Habits","Unit 5 — Mysterious Places","Unit 6 — Monuments","Interpretação"];
+var SHORT = {"Unit 4 — Eating Habits":"Unit 4","Unit 5 — Mysterious Places":"Unit 5","Unit 6 — Monuments":"Unit 6","Interpretação":"Interpretação"};
+
+function renderOptions(q){
+  var box=document.getElementById("options-container");
+  box.innerHTML="";
+  q.options.forEach(function(opt,i){
+    var b=document.createElement("button");
+    b.className="option-btn";
+    b.textContent=opt;
+    b.onclick=function(){selectOption(i);};
+    box.appendChild(b);
+  });
+}
+
+function loadQuestion(){
+  var q=activeQuestions[currentIndex];
+  var total=activeQuestions.length;
+  document.getElementById("progress-fill").style.width=((currentIndex)/total*100)+"%";
+  document.getElementById("question-number").textContent="Questão "+(currentIndex+1)+" de "+total;
+  document.getElementById("score-text").textContent=score+(score===1?" acerto":" acertos");
+  document.getElementById("module-tag").textContent=q.module;
+  document.getElementById("question-text").textContent=q.question;
+  document.getElementById("hint-box").style.display="none";
+  document.getElementById("hint-box").textContent=q.hint;
+  document.getElementById("hint-toggle-btn").style.display="inline-block";
+  var fb=document.getElementById("feedback-box");
+  fb.style.display="none";fb.className="feedback-box";fb.innerHTML="";
+  renderOptions(q);
+  var nb=document.getElementById("next-btn");
+  nb.textContent=(currentIndex===total-1)?"Ver Resultado Final":"Próxima Questão";
+  nb.style.display="none";
+  answered=false;
+  document.getElementById("review-mode-tag").style.display=isReviewMode?"inline-block":"none";
+}
+
+function toggleHint(){
+  var hb=document.getElementById("hint-box");
+  hb.style.display=(hb.style.display==="block")?"none":"block";
+}
+
+function selectOption(sel){
+  if(answered)return;
+  answered=true;
+  var q=activeQuestions[currentIndex];
+  var btns=document.querySelectorAll("#options-container .option-btn");
+  btns.forEach(function(b){b.disabled=true;});
+  userAnswers[currentIndex]=sel;
+  btns[q.correct].classList.add("correct");
+  var fb=document.getElementById("feedback-box");
+  if(sel===q.correct){
+    score++;
+    fb.className="feedback-box correct";
+    fb.innerHTML="<strong>✅ Resposta Correta!</strong>"+q.explanation;
+  }else{
+    btns[sel].classList.add("wrong");
+    fb.className="feedback-box wrong";
+    fb.innerHTML="<strong>❌ Alternativa Incorreta</strong>"+q.explanation;
+  }
+  fb.style.display="block";
+  document.getElementById("score-text").textContent=score+(score===1?" acerto":" acertos");
+  document.getElementById("hint-toggle-btn").style.display="none";
+  document.getElementById("hint-box").style.display="none";
+  document.getElementById("next-btn").style.display="block";
+}
+
+function handleNextAction(){
+  currentIndex++;
+  if(currentIndex<activeQuestions.length){
+    loadQuestion();
+  }else{
+    showResults();
+  }
+}
+
+function getErrors(){
+  var errs=[];
+  activeQuestions.forEach(function(q,i){
+    if(userAnswers[i]!==q.correct)errs.push({q:q,idx:i,picked:userAnswers[i]});
+  });
+  return errs;
+}
+
+function showResults(){
+  document.getElementById("quiz-screen").style.display="none";
+  document.getElementById("results-screen").style.display="flex";
+  var total=activeQuestions.length;
+  var pct=Math.round(score/total*100);
+  document.getElementById("final-score").innerHTML=score+"/"+total+"<br><span>"+pct+"% de Acertos</span>";
+  var msg;
+  if(pct>=85)msg="Domínio. Você está pronto para a prova.";
+  else if(pct>=65)msg="Preparado. Revise só os pontos que errou.";
+  else if(pct>=45)msg="Bom esforço. Há pontos importantes a revisar.";
+  else msg="Vamos revisar com calma e tentar de novo. Você consegue.";
+  document.getElementById("final-message").textContent=msg;
+  document.getElementById("results-sub").textContent=isReviewMode?"Resultado do modo revisão.":"Veja seu desempenho por unidade.";
+
+  var counts={};
+  CATEGORIES.forEach(function(c){counts[c]={ok:0,total:0};});
+  activeQuestions.forEach(function(q,i){
+    counts[q.module].total++;
+    if(userAnswers[i]===q.correct)counts[q.module].ok++;
+  });
+  var lines=CATEGORIES.filter(function(c){return counts[c].total>0;}).map(function(c){
+    return "<strong>"+SHORT[c]+":</strong> "+counts[c].ok+"/"+counts[c].total;
+  });
+  document.getElementById("part-summary").innerHTML=lines.join("<br>")+"<span class=\"note\">Revise as unidades com menos acertos antes da prova.</span>";
+
+  var hasErrors=getErrors().length>0;
+  document.getElementById("btn-review").style.display=hasErrors?"block":"none";
+  document.getElementById("btn-redo-errors").style.display=hasErrors?"block":"none";
+  document.getElementById("btn-full").style.display=isReviewMode?"block":"none";
+}
+
+function showReview(){
+  document.getElementById("results-screen").style.display="none";
+  document.getElementById("review-screen").style.display="flex";
+  var errs=getErrors();
+  document.getElementById("review-sub").textContent=errs.length+(errs.length===1?" questão errada":" questões erradas")+" de "+activeQuestions.length;
+
+  var box=document.getElementById("module-summary-box");
+  if(errs.length===0){
+    box.innerHTML="";
+  }else{
+    var errCount={};
+    CATEGORIES.forEach(function(c){errCount[c]=0;});
+    errs.forEach(function(e){errCount[e.q.module]++;});
+    var maxC=CATEGORIES[0];
+    CATEGORIES.forEach(function(c){if(errCount[c]>errCount[maxC])maxC=c;});
+    var rows=CATEGORIES.filter(function(c){return errCount[c]>0;}).map(function(c){
+      var n=errCount[c];
+      var w=Math.max(8,Math.round(n/errs.length*100));
+      var top=(c===maxC)?" top":"";
+      var badge=(c===maxC)?'<span class="badge">mais erros</span>':"";
+      return '<div class="mod-row"><div class="mod-row-head"><span>'+SHORT[c]+'</span>'+badge+'<span>'+n+' erro'+(n>1?'s':'')+'</span></div><div class="mod-bar-bg"><div class="mod-bar-fill'+top+'" style="width:'+w+'%"></div></div></div>';
+    }).join("");
+    var note;
+    if(errs.length<=2)note="Foram poucos erros. Revise estes pontos e você está pronto.";
+    else if(maxC==="Interpretação")note="Seu maior ponto de atenção é interpretação de texto. Vale reler as questões com calma antes de responder.";
+    else note="Seu maior ponto de atenção é a "+SHORT[maxC]+". Vale revisar esse conteúdo antes da prova.";
+    box.innerHTML='<div class="module-summary"><h3>📊 Onde você errou mais</h3>'+rows+'<div class="mod-note">'+note+'</div></div>';
+  }
+
+  var list=document.getElementById("review-list");
+  list.innerHTML="";
+  if(errs.length===0){
+    list.innerHTML='<div class="empty-msg">Você não errou nenhuma questão! Não há nada para revisar.</div>';
+  }else{
+    errs.forEach(function(e){
+      var q=e.q;
+      var card=document.createElement("div");
+      card.className="review-card";
+      var picked=(e.picked!==undefined)?q.options[e.picked]:"Sem resposta";
+      card.innerHTML=
+        '<div class="rc-head">Questão '+(e.idx+1)+' • '+q.module+'</div>'+
+        '<div class="rc-q"></div>'+
+        '<div class="rc-answer wrong"><span class="lbl">Sua resposta</span></div>'+
+        '<div class="rc-answer correct"><span class="lbl">Resposta correta</span></div>'+
+        '<div class="rc-why"><span class="lbl">Por quê</span></div>';
+      card.querySelector(".rc-q").textContent=q.question;
+      var ws=card.querySelector(".rc-answer.wrong");
+      ws.appendChild(document.createTextNode(picked));
+      var cs=card.querySelector(".rc-answer.correct");
+      cs.appendChild(document.createTextNode(q.options[q.correct]));
+      card.querySelector(".rc-why").appendChild(document.createTextNode(q.explanation));
+      list.appendChild(card);
+    });
+  }
+}
+
+function backToResults(){
+  document.getElementById("review-screen").style.display="none";
+  document.getElementById("results-screen").style.display="flex";
+}
+
+function startReviewErrors(){
+  var errs=getErrors();
+  if(errs.length===0){
+    document.getElementById("review-screen").style.display="none";
+    document.getElementById("results-screen").style.display="flex";
+    return;
+  }
+  activeQuestions=errs.map(function(e){return e.q;});
+  isReviewMode=true;
+  currentIndex=0;score=0;userAnswers=[];
+  document.getElementById("review-screen").style.display="none";
+  document.getElementById("results-screen").style.display="none";
+  document.getElementById("quiz-screen").style.display="flex";
+  loadQuestion();
+}
+
+function startFullQuiz(){
+  activeQuestions=questions.slice();
+  isReviewMode=false;
+  currentIndex=0;score=0;userAnswers=[];
+  document.getElementById("review-screen").style.display="none";
+  document.getElementById("results-screen").style.display="none";
+  document.getElementById("quiz-screen").style.display="flex";
+  loadQuestion();
+}
+
+function restartQuiz(){
+  startFullQuiz();
+}
+
+loadQuestion();
+</script>
+</body>
+</html>
