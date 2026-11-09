@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="light">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Revisão de Inglês — Quiz 3º Trimestre</title>
+<title>English Review — 3rd Term Quiz</title>
 <style>
 :root{--primary:#1F4E5F;--primary-light:#2A6B80;--bg:#F4F7F8;--card-bg:#ffffff;--text:#1e293b;--border:#cbd5e1;--correct-bg:#dcfce7;--correct-border:#22c55e;--correct-text:#15803d;--wrong-bg:#fee2e2;--wrong-border:#ef4444;--wrong-text:#b91c1c;--hint-bg:#fef3c7;--hint-border:#f59e0b;}
 *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-tap-highlight-color:transparent;}
@@ -78,20 +78,20 @@ body{background:var(--bg);color:var(--text);display:flex;justify-content:center;
   <div class="header">
     <div class="header-icon" aria-hidden="true"></div>
     <div class="header-info">
-      <h1>📘 Revisão de Inglês</h1>
-      <p>6º Ano — Sistema Plurall (Units 4, 5 e 6)</p>
-      <p class="quiz-meta">20 questões · 12 conteúdo e gramática · 4 interpretação · 4 mistas</p>
+      <h1>📘 English Review</h1>
+      <p>6th Grade — Plurall System (Units 4, 5 and 6)</p>
+      <p class="quiz-meta">20 questions · 12 content and grammar · 4 reading · 4 mixed</p>
     </div>
   </div>
 
   <div id="quiz-screen" style="display:flex;flex-direction:column;gap:14px;">
-    <div id="review-mode-tag" class="review-tag">Modo revisão — apenas as questões que você errou</div>
+    <div id="review-mode-tag" class="review-tag">Review mode — only the questions you missed</div>
 
     <div class="progress-box">
       <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
       <div class="progress-stats">
-        <span id="question-number">Questão 1 de 20</span>
-        <span id="score-text">0 acertos</span>
+        <span id="question-number">Question 1 of 20</span>
+        <span id="score-text">0 correct</span>
       </div>
     </div>
 
@@ -100,62 +100,62 @@ body{background:var(--bg);color:var(--text);display:flex;justify-content:center;
     <div id="options-container" class="options-container"></div>
 
     <div class="footer-hint-section">
-      <button id="hint-toggle-btn" class="hint-btn" onclick="toggleHint()">💡 Precisa de uma dica?</button>
+      <button id="hint-toggle-btn" class="hint-btn" onclick="toggleHint()">💡 Need a hint?</button>
       <div id="hint-box" class="hint-box"></div>
     </div>
 
     <div id="feedback-box" class="feedback-box"></div>
-    <button id="next-btn" class="action-btn" onclick="handleNextAction()">Próxima Questão</button>
+    <button id="next-btn" class="action-btn" onclick="handleNextAction()">Next Question</button>
   </div>
 
   <div id="results-screen" class="results-screen">
-    <h2>🎯 Revisão concluída</h2>
-    <p id="results-sub">Veja seu desempenho por unidade.</p>
+    <h2>🎯 Quiz Complete</h2>
+    <p id="results-sub">You answered all the questions!</p>
     <div id="final-score" class="score-circle"></div>
     <p id="final-message"></p>
     <div id="part-summary" class="part-summary"></div>
-    <button id="btn-review" class="action-btn secondary" onclick="showReview()">📋 Revisar meus erros</button>
-    <button id="btn-redo-errors" class="action-btn primary-teal" onclick="startReviewErrors()">🔁 Refazer só os erros</button>
-    <button id="btn-full" class="action-btn" onclick="startFullQuiz()" style="display:none">Voltar ao quiz completo</button>
-    <button id="btn-restart" class="action-btn" onclick="restartQuiz()">🔄 Reiniciar Quiz</button>
+    <button id="btn-review" class="action-btn secondary" onclick="showReview()">📋 Review my mistakes</button>
+    <button id="btn-redo-errors" class="action-btn primary-teal" onclick="startReviewErrors()">🔁 Retry only the mistakes</button>
+    <button id="btn-full" class="action-btn" onclick="startFullQuiz()" style="display:none">Back to full quiz</button>
+    <button id="btn-restart" class="action-btn" onclick="restartQuiz()">🔄 Restart Quiz</button>
   </div>
 
   <div id="review-screen" class="review-screen">
     <div>
-      <div class="review-title">📋 Revisão dos seus erros</div>
+      <div class="review-title">📋 Review of your mistakes</div>
       <div id="review-sub" class="review-sub"></div>
     </div>
     <div id="module-summary-box"></div>
-    <button id="btn-redo-errors-2" class="action-btn primary-teal" onclick="startReviewErrors()">🔁 Refazer só os erros</button>
+    <button id="btn-redo-errors-2" class="action-btn primary-teal" onclick="startReviewErrors()">🔁 Retry only the mistakes</button>
     <div id="review-list" style="display:flex;flex-direction:column;gap:10px;"></div>
-    <button class="action-btn secondary" onclick="backToResults()">← Voltar ao resultado</button>
+    <button class="action-btn secondary" onclick="backToResults()">← Back to results</button>
   </div>
 
-  <p class="footer-note">Quiz offline • Conteúdo de revisão para o 3º trimestre</p>
+  <p class="footer-note">Offline quiz • Review content for the 3rd term</p>
 </div>
 
 <script>
 var questions = [
-{module:"Unit 4 — Eating Habits",part:1,question:"Segundo a Unit 4, qual refeição é considerada a principal e mais pesada do dia nos hábitos americanos e ingleses?",options:["a) Breakfast","b) Lunch","c) Dinner","d) Snack"],correct:2,hint:"Pense em qual refeição a unidade chama de principal.",explanation:"Dinner é a refeição principal e mais pesada. Breakfast e lunch são mais leves, e snack não é tratado na unidade."},
-{module:"Unit 4 — Eating Habits",part:1,question:"Qual alternativa descreve corretamente a base da alimentação asiática apresentada na Unit 4?",options:["a) Carne vermelha todos os dias e molhos gordurosos","b) Grãos integrais, vegetais, arroz e noodles","c) Pão branco, manteiga e queijos","d) Batata frita, bacon e salsicha"],correct:1,hint:"A unidade fala de uma alimentação low in fat, com base vegetal.",explanation:"A base é de grãos integrais, vegetais, arroz e noodles. Carne vermelha é rara, e as opções com bacon e queijos descrevem o café da manhã americano, não a Ásia."},
-{module:"Unit 4 — Eating Habits",part:1,question:"Na Unit 4, o modo de preparo chamado deep-fried significa que o alimento foi:",options:["a) Cozido no vapor","b) Servido cru","c) Mexido rapidamente na frigideira","d) Frito em imersão, mergulhado no óleo"],correct:3,hint:"Deep quer dizer fundo, profundo.",explanation:"Deep-fried é frito em imersão no óleo. Steamed é no vapor, raw é cru e stir-fried é mexido na frigideira."},
-{module:"Unit 4 — Eating Habits",part:1,question:"Qual frase usa corretamente o USED TO na forma negativa?",options:["a) I didn't used to eat cereal.","b) I didn't use to eat cereal.","c) I don't used to eat cereal.","d) I not used to eat cereal."],correct:1,hint:"Quando o auxiliar did aparece, o used perde o d.",explanation:"Com o auxiliar didn't, o verbo volta à forma base: didn't use to. A alternativa a) é o erro clássico de manter o d depois do didn't."},
-{module:"Unit 4 — Eating Habits",part:1,question:"Complete corretamente: '_____ came to the party, so the room was empty.'",options:["a) Anybody","b) Somebody","c) Nobody","d) Anyone"],correct:2,hint:"A segunda parte da frase diz que a sala estava vazia.",explanation:"Nobody significa ninguém e é usado em frase afirmativa com sentido negativo. Anybody e anyone aparecem em perguntas e negativas, e somebody indicaria que alguém veio."},
-{module:"Unit 4 — Eating Habits",part:1,question:"Na Unit 4, qual derivado de soja é típico do Japão e da Coreia?",options:["a) Maple syrup","b) Hash browns","c) Oatmeal","d) Soy sauce"],correct:3,hint:"Procure o termo que tem soy no nome.",explanation:"Soy sauce é o molho de soja, junto com tofu e soy paste. Maple syrup, hash browns e oatmeal são itens do café da manhã americano."},
-{module:"Unit 5 — Mysterious Places",part:1,question:"O Triângulo das Bermudas é uma área localizada:",options:["a) No Oceano Atlântico, entre Miami, Porto Rico e Bermudas","b) No Oceano Pacífico, perto do Japão","c) No Mar Mediterrâneo, perto da Itália","d) No Oriente Médio, entre Jordânia e Israel"],correct:0,hint:"A unidade cita três pontos de referência, e um deles é uma cidade da Flórida.",explanation:"A área fica no Oceano Atlântico, entre Miami, Porto Rico e Bermudas. A opção do Oriente Médio descreve o Mar Morto, não o triângulo."},
-{module:"Unit 5 — Mysterious Places",part:1,question:"Por que é praticamente impossível afundar no Mar Morto?",options:["a) Porque a água é muito fria","b) Porque a água é oito vezes mais salgada e muito densa","c) Porque o lago é muito raso","d) Porque há muitas plantas na água"],correct:1,hint:"A unidade liga o sal à densidade da água.",explanation:"A água é oito vezes mais salgada que o oceano, o que a torna densa e fácil para flutuar. A unidade diz justamente que não há plantas nem peixes no local."},
-{module:"Unit 5 — Mysterious Places",part:1,question:"Segundo a Unit 5, o que aconteceu em 5 de dezembro de 1945 no Triângulo das Bermudas?",options:["a) Um navio foi resgatado com toda a tripulação","b) Cinco aviões desapareceram sem deixar vestígios","c) Uma tempestade destruiu a ilha de Bermudas","d) O local foi transformado em health resort"],correct:1,hint:"A data marca o início da fama do local.",explanation:"Nessa data, cinco aviões desapareceram sem vestígios, o que tornou a área famosa. O health resort é o Mar Morto, não o triângulo."},
-{module:"Unit 5 — Mysterious Places",part:1,question:"Qual frase concorda corretamente com uma afirmação, usando SO?",options:["a) I like the sea. — So I do.","b) I like the sea. — So am I.","c) I like the sea. — So do I.","d) I like the sea. — Neither do I."],correct:2,hint:"A ordem é so, depois o auxiliar, depois o sujeito. E o auxiliar precisa combinar com o verbo da frase.",explanation:"A frase usa like, um verbo comum, então o auxiliar é do: So do I. A opção a) inverte a ordem, e a b) usa am, que não combina com like."},
-{module:"Unit 5 — Mysterious Places",part:1,question:"Qual frase expressa exclusão, ou seja, nem uma coisa nem outra?",options:["a) You can choose either tea or juice.","b) There are neither plants nor fish.","c) You can choose both tea and juice.","d) There are either plants or fish."],correct:1,hint:"Exclusão significa que as duas opções estão fora.",explanation:"Neither...nor exclui as duas possibilidades. Either...or apresenta uma escolha entre duas opções positivas."},
-{module:"Unit 5 — Mysterious Places",part:1,question:"Na Unit 5, o Mar Morto é usado como health resort porque as pessoas:",options:["a) Praticam natação competitiva no lago","b) Pescam peixes raros na região","c) Passam lama na pele e usam os cristais de sal","d) Constroem barcos com o sal da água"],correct:2,hint:"A unidade cita dois elementos que ficam na água e na praia.",explanation:"As pessoas usam a lama (mud) na pele e os cristais de sal (salt crystals) da praia. A unidade afirma que não há peixes no local, o que elimina a opção da pesca."},
-{module:"Unit 6 — Monuments",part:1,question:"Quem mandou construir o Taj Mahal e em memória de quem?",options:["a) Shah Jahan, em memória da esposa Mumtaz Mahal","b) Mumtaz Mahal, em memória do marido Shah Jahan","c) O governo da Índia, em memória dos trabalhadores","d) O Departamento de Defesa, em memória dos soldados"],correct:0,hint:"A unidade apresenta o monumento como uma história de amor.",explanation:"Foi o Imperador Shah Jahan, em memória da esposa Mumtaz Mahal, que morreu em 1631. A opção d) descreve o Pentágono."},
-{module:"Unit 6 — Monuments",part:1,question:"Quantos anos durou a construção do Taj Mahal, de 1632 a 1652?",options:["a) 5 anos","b) 16 meses","c) 20 anos","d) 100 anos"],correct:2,hint:"Faça a conta entre o ano de início e o ano de término.",explanation:"A construção durou 20 anos, de 1632 a 1652. Os 16 meses se referem ao Pentágono, não ao Taj Mahal."},
-{module:"Unit 6 — Monuments",part:1,question:"Qual frase está correta segundo a regra de Simple Past e Present Perfect?",options:["a) I have visited India in 2010.","b) I visited India in 2010.","c) I have visit India in 2010.","d) I did visited India in 2010."],correct:1,hint:"A frase diz quando aconteceu.",explanation:"Com data definida (in 2010), usa-se Simple Past: I visited. A opção a) é o erro clássico de usar Present Perfect com tempo definido."},
-{module:"Unit 6 — Monuments",part:1,question:"Qual é a forma correta da negativa no Present Perfect?",options:["a) I haven't went there.","b) I don't have gone there.","c) I haven't never been there.","d) I haven't been there."],correct:3,hint:"O Present Perfect usa have ou has mais o particípio do verbo.",explanation:"A forma correta é haven't + particípio: haven't been. A opção a) usa went, que é passado simples e não particípio, e a c) tem dupla negação."},
-{module:"Interpretação",part:2,question:"Leia o trecho:\n'In the United States, breakfast is often bigger than in Asia. People eat eggs, bacon and pancakes with maple syrup. In Japan and Korea, meals are low in fat and include tofu, vegetables and green tea.'\n\nDe acordo com o trecho, o que diferencia o café da manhã americano do asiático?",options:["a) O americano é mais leve e rápido","b) O asiático inclui mais carne vermelha","c) O americano é maior e inclui itens como bacon e pancakes","d) Os dois são exatamente iguais"],correct:2,hint:"O trecho começa comparando o tamanho das refeições.",explanation:"O texto diz que o café da manhã americano costuma ser maior e cita eggs, bacon e pancakes. O texto afirma que a alimentação asiática é low in fat e que a carne vermelha é rara."},
-{module:"Interpretação",part:2,question:"Leia o trecho:\n'The Dead Sea is not really a sea. It is a lake between Jordan, Israel and Palestine. Its water is eight times saltier than the ocean, so it is easy to float and hard to sink.'\n\nSegundo o trecho, por que é fácil flutuar no Mar Morto?",options:["a) Porque a água é doce e leve","b) Porque a água é oito vezes mais salgada que o oceano","c) Porque o lago é muito profundo","d) Porque há muitas ondas no local"],correct:1,hint:"O trecho usa a palavra so para ligar causa e consequência.",explanation:"O texto liga a alta salinidade à facilidade de flutuar. Profundidade e ondas não são mencionadas no trecho."},
-{module:"Interpretação",part:2,question:"Leia o trecho:\n'The Taj Mahal was built by Emperor Shah Jahan in memory of his wife, Mumtaz Mahal. She died in 1631. The construction took 20 years, 20,000 people and 1,000 elephants.'\n\nQual informação NÃO aparece no trecho?",options:["a) O nome do imperador","b) O ano da morte da esposa","c) O número de elefantes","d) O preço da entrada do monumento"],correct:3,hint:"Procure a informação que o texto não cita em nenhum momento.",explanation:"O trecho não menciona preço de entrada. Imperador, ano de 1631 e os 1.000 elefantes aparecem no texto."},
-{module:"Interpretação",part:2,question:"Leia o trecho:\n'The Pentagon was built in 1941, during World War II. It took only 16 months. The building has five floors and five sides, and it is the headquarters of the US Department of Defense.'\n\nDe onde vem o nome Pentagon?",options:["a) Do número de andares e de lados: cinco","b) Do nome do arquiteto que projetou o prédio","c) Da cidade onde fica o edifício","d) Do ano em que foi construído"],correct:0,hint:"A palavra penta significa cinco.",explanation:"O nome vem da forma: cinco andares e cinco lados. A cidade (Arlington) e o ano (1941) aparecem no texto, mas não explicam o nome."}
+{module:"Unit 4 — Eating Habits",part:1,question:"According to Unit 4, which meal is considered the main and heaviest one in American and English eating habits?",options:["a) Breakfast","b) Lunch","c) Dinner","d) Snack"],correct:2,hint:"Think about which meal the unit calls the main one.",explanation:"Dinner is the main and heaviest meal. Breakfast and lunch are lighter, and snack is not mentioned in the unit."},
+{module:"Unit 4 — Eating Habits",part:1,question:"Which option correctly describes the base of Asian eating habits presented in Unit 4?",options:["a) Red meat every day and heavy sauces","b) Whole grains, vegetables, rice and noodles","c) White bread, butter and cheese","d) French fries, bacon and sausages"],correct:1,hint:"The unit describes a low in fat diet with a plant-based base.",explanation:"The base is whole grains, vegetables, rice and noodles. Red meat is rare, and the options with bacon and cheese describe the American breakfast, not Asia."},
+{module:"Unit 4 — Eating Habits",part:1,question:"In Unit 4, the cooking method called deep-fried means the food was:",options:["a) Cooked by steam","b) Served raw","c) Stirred quickly in a pan","d) Fried in a lot of oil, completely covered"],correct:3,hint:"Deep means far down, inside something.",explanation:"Deep-fried means fried completely covered in oil. Steamed is cooked by steam, raw is not cooked, and stir-fried is stirred quickly in a pan."},
+{module:"Unit 4 — Eating Habits",part:1,question:"Which sentence uses USED TO correctly in the negative form?",options:["a) I didn't used to eat cereal.","b) I didn't use to eat cereal.","c) I don't used to eat cereal.","d) I not used to eat cereal."],correct:1,hint:"When the auxiliary did appears, used loses the d.",explanation:"With the auxiliary didn't, the verb goes back to the base form: didn't use to. Option a) is the classic mistake of keeping the d after didn't."},
+{module:"Unit 4 — Eating Habits",part:1,question:"Complete correctly: '_____ came to the party, so the room was empty.'",options:["a) Anybody","b) Somebody","c) Nobody","d) Anyone"],correct:2,hint:"The second part of the sentence says the room was empty.",explanation:"Nobody means no person and is used in an affirmative sentence with a negative idea. Anybody and anyone go in questions and negatives, and somebody would mean that someone came."},
+{module:"Unit 4 — Eating Habits",part:1,question:"In Unit 4, which soy product is typical of Japan and Korea?",options:["a) Maple syrup","b) Hash browns","c) Oatmeal","d) Soy sauce"],correct:3,hint:"Look for the term that has soy in its name.",explanation:"Soy sauce is used together with tofu and soy paste. Maple syrup, hash browns and oatmeal are American breakfast items."},
+{module:"Unit 5 — Mysterious Places",part:1,question:"The Bermuda Triangle is an area located:",options:["a) In the Atlantic Ocean, between Miami, Puerto Rico and Bermuda","b) In the Pacific Ocean, near Japan","c) In the Mediterranean Sea, near Italy","d) In the Middle East, between Jordan and Israel"],correct:0,hint:"The unit mentions three reference points, and one of them is a city in Florida.",explanation:"The area is in the Atlantic Ocean, between Miami, Puerto Rico and Bermuda. The Middle East option describes the Dead Sea, not the triangle."},
+{module:"Unit 5 — Mysterious Places",part:1,question:"Why is it almost impossible to sink in the Dead Sea?",options:["a) Because the water is very cold","b) Because the water is eight times saltier and very dense","c) Because the lake is very shallow","d) Because there are many plants in the water"],correct:1,hint:"The unit connects the salt to the density of the water.",explanation:"The water is eight times saltier than the ocean, which makes it dense and easy to float. The unit also says there are no plants or fish there."},
+{module:"Unit 5 — Mysterious Places",part:1,question:"According to Unit 5, what happened on December 5th, 1945 in the Bermuda Triangle?",options:["a) A ship was rescued with its whole crew","b) Five planes disappeared without a trace","c) A storm destroyed the island of Bermuda","d) The place became a health resort"],correct:1,hint:"That date marks the beginning of the area's fame.",explanation:"On that date, five planes disappeared without a trace, which made the area famous. The health resort is the Dead Sea, not the triangle."},
+{module:"Unit 5 — Mysterious Places",part:1,question:"Which sentence agrees correctly with an affirmative statement, using SO?",options:["a) I like the sea. — So I do.","b) I like the sea. — So am I.","c) I like the sea. — So do I.","d) I like the sea. — Neither do I."],correct:2,hint:"The order is so, then the auxiliary, then the subject. And the auxiliary must match the verb of the sentence.",explanation:"The sentence uses like, a common verb, so the auxiliary is do: So do I. Option a) inverts the order, and b) uses am, which does not match like."},
+{module:"Unit 5 — Mysterious Places",part:1,question:"Which sentence expresses exclusion, that is, neither one thing nor the other?",options:["a) You can choose either tea or juice.","b) There are neither plants nor fish.","c) You can choose both tea and juice.","d) There are either plants or fish."],correct:1,hint:"Exclusion means both options are out.",explanation:"Neither...nor excludes both possibilities. Either...or offers a choice between two positive options."},
+{module:"Unit 5 — Mysterious Places",part:1,question:"In Unit 5, the Dead Sea is used as a health resort because people:",options:["a) Swim competitively in the lake","b) Fish for rare species in the area","c) Put mud on their skin and use the salt crystals","d) Build boats with the salt from the water"],correct:2,hint:"The unit mentions two things found in the water and on the shore.",explanation:"People use the mud on their skin and the salt crystals on the shore. The unit says there are no fish there, which rules out the fishing option."},
+{module:"Unit 6 — Monuments",part:1,question:"Who ordered the construction of the Taj Mahal and in memory of whom?",options:["a) Shah Jahan, in memory of his wife Mumtaz Mahal","b) Mumtaz Mahal, in memory of her husband Shah Jahan","c) The government of India, in memory of the workers","d) The Department of Defense, in memory of the soldiers"],correct:0,hint:"The unit presents the monument as a love story.",explanation:"It was Emperor Shah Jahan, in memory of his wife Mumtaz Mahal, who died in 1631. Option d) describes the Pentagon."},
+{module:"Unit 6 — Monuments",part:1,question:"How many years did the construction of the Taj Mahal take, from 1632 to 1652?",options:["a) 5 years","b) 16 months","c) 20 years","d) 100 years"],correct:2,hint:"Do the math between the starting year and the ending year.",explanation:"The construction took 20 years, from 1632 to 1652. The 16 months refer to the Pentagon, not the Taj Mahal."},
+{module:"Unit 6 — Monuments",part:1,question:"Which sentence is correct according to the Simple Past and Present Perfect rule?",options:["a) I have visited India in 2010.","b) I visited India in 2010.","c) I have visit India in 2010.","d) I did visited India in 2010."],correct:1,hint:"The sentence says when it happened.",explanation:"With a definite time (in 2010), we use the Simple Past: I visited. Option a) is the classic mistake of using the Present Perfect with a definite time."},
+{module:"Unit 6 — Monuments",part:1,question:"What is the correct negative form in the Present Perfect?",options:["a) I haven't went there.","b) I don't have gone there.","c) I haven't never been there.","d) I haven't been there."],correct:3,hint:"The Present Perfect uses have or has plus the past participle.",explanation:"The correct form is haven't + past participle: haven't been. Option a) uses went, which is Simple Past and not a participle, and c) has a double negative."},
+{module:"Reading",part:2,question:"Read the excerpt: 'In the United States, breakfast is often bigger than in Asia. People eat eggs, bacon and pancakes with maple syrup. In Japan and Korea, meals are low in fat and include tofu, vegetables and green tea.' — According to the excerpt, what makes the American breakfast different from the Asian one?",options:["a) The American one is lighter and faster","b) The Asian one includes more red meat","c) The American one is bigger and includes items like bacon and pancakes","d) Both of them are exactly the same"],correct:2,hint:"The excerpt starts by comparing the size of the meals.",explanation:"The text says the American breakfast is usually bigger and mentions eggs, bacon and pancakes. It also says Asian meals are low in fat and that red meat is rare."},
+{module:"Reading",part:2,question:"Read the excerpt: 'The Dead Sea is not really a sea. It is a lake between Jordan, Israel and Palestine. Its water is eight times saltier than the ocean, so it is easy to float and hard to sink.' — According to the excerpt, why is it easy to float in the Dead Sea?",options:["a) Because the water is sweet and light","b) Because the water is eight times saltier than the ocean","c) Because the lake is very deep","d) Because there are many waves in the place"],correct:1,hint:"The excerpt uses the word so to connect cause and consequence.",explanation:"The text connects the high salinity to the ability to float. Depth and waves are not mentioned in the excerpt."},
+{module:"Reading",part:2,question:"Read the excerpt: 'The Taj Mahal was built by Emperor Shah Jahan in memory of his wife, Mumtaz Mahal. She died in 1631. The construction took 20 years, 20,000 people and 1,000 elephants.' — Which information does NOT appear in the excerpt?",options:["a) The name of the emperor","b) The year his wife died","c) The number of elephants","d) The price of the monument ticket"],correct:3,hint:"Look for the information the text never mentions.",explanation:"The excerpt does not mention a ticket price. The emperor, the year 1631 and the 1,000 elephants all appear in the text."},
+{module:"Reading",part:2,question:"Read the excerpt: 'The Pentagon was built in 1941, during World War II. It took only 16 months. The building has five floors and five sides, and it is the headquarters of the US Department of Defense.' — Where does the name Pentagon come from?",options:["a) From the number of floors and sides: five","b) From the name of the architect who designed the building","c) From the city where the building is located","d) From the year it was built"],correct:0,hint:"The prefix penta means five.",explanation:"The name comes from the shape: five floors and five sides. The city (Arlington) and the year (1941) appear in the text, but they do not explain the name."}
 ];
 
 var activeQuestions = questions.slice();
@@ -165,8 +165,8 @@ var answered = false;
 var userAnswers = [];
 var isReviewMode = false;
 
-var CATEGORIES = ["Unit 4 — Eating Habits","Unit 5 — Mysterious Places","Unit 6 — Monuments","Interpretação"];
-var SHORT = {"Unit 4 — Eating Habits":"Unit 4","Unit 5 — Mysterious Places":"Unit 5","Unit 6 — Monuments":"Unit 6","Interpretação":"Interpretação"};
+var CATEGORIES = ["Unit 4 — Eating Habits","Unit 5 — Mysterious Places","Unit 6 — Monuments","Reading"];
+var SHORT = {"Unit 4 — Eating Habits":"Unit 4","Unit 5 — Mysterious Places":"Unit 5","Unit 6 — Monuments":"Unit 6","Reading":"Reading"};
 
 function renderOptions(q){
   var box=document.getElementById("options-container");
@@ -184,8 +184,8 @@ function loadQuestion(){
   var q=activeQuestions[currentIndex];
   var total=activeQuestions.length;
   document.getElementById("progress-fill").style.width=((currentIndex)/total*100)+"%";
-  document.getElementById("question-number").textContent="Questão "+(currentIndex+1)+" de "+total;
-  document.getElementById("score-text").textContent=score+(score===1?" acerto":" acertos");
+  document.getElementById("question-number").textContent="Question "+(currentIndex+1)+" of "+total;
+  document.getElementById("score-text").textContent=score+" correct";
   document.getElementById("module-tag").textContent=q.module;
   document.getElementById("question-text").textContent=q.question;
   document.getElementById("hint-box").style.display="none";
@@ -195,7 +195,7 @@ function loadQuestion(){
   fb.style.display="none";fb.className="feedback-box";fb.innerHTML="";
   renderOptions(q);
   var nb=document.getElementById("next-btn");
-  nb.textContent=(currentIndex===total-1)?"Ver Resultado Final":"Próxima Questão";
+  nb.textContent=(currentIndex===total-1)?"See Final Result":"Next Question";
   nb.style.display="none";
   answered=false;
   document.getElementById("review-mode-tag").style.display=isReviewMode?"inline-block":"none";
@@ -218,14 +218,14 @@ function selectOption(sel){
   if(sel===q.correct){
     score++;
     fb.className="feedback-box correct";
-    fb.innerHTML="<strong>✅ Resposta Correta!</strong>"+q.explanation;
+    fb.innerHTML="<strong>✅ Correct Answer!</strong>"+q.explanation;
   }else{
     btns[sel].classList.add("wrong");
     fb.className="feedback-box wrong";
-    fb.innerHTML="<strong>❌ Alternativa Incorreta</strong>"+q.explanation;
+    fb.innerHTML="<strong>❌ Incorrect Answer</strong>"+q.explanation;
   }
   fb.style.display="block";
-  document.getElementById("score-text").textContent=score+(score===1?" acerto":" acertos");
+  document.getElementById("score-text").textContent=score+" correct";
   document.getElementById("hint-toggle-btn").style.display="none";
   document.getElementById("hint-box").style.display="none";
   document.getElementById("next-btn").style.display="block";
@@ -253,14 +253,14 @@ function showResults(){
   document.getElementById("results-screen").style.display="flex";
   var total=activeQuestions.length;
   var pct=Math.round(score/total*100);
-  document.getElementById("final-score").innerHTML=score+"/"+total+"<br><span>"+pct+"% de Acertos</span>";
+  document.getElementById("final-score").innerHTML=score+"/"+total+"<br><span>"+pct+"% Correct</span>";
   var msg;
-  if(pct>=85)msg="Domínio. Você está pronto para a prova.";
-  else if(pct>=65)msg="Preparado. Revise só os pontos que errou.";
-  else if(pct>=45)msg="Bom esforço. Há pontos importantes a revisar.";
-  else msg="Vamos revisar com calma e tentar de novo. Você consegue.";
+  if(pct>=85)msg="Mastery. You are ready for the test.";
+  else if(pct>=65)msg="Prepared. Just review the points you missed.";
+  else if(pct>=45)msg="Good effort. There are important points to review.";
+  else msg="Let's review calmly and try again. You can do it.";
   document.getElementById("final-message").textContent=msg;
-  document.getElementById("results-sub").textContent=isReviewMode?"Resultado do modo revisão.":"Veja seu desempenho por unidade.";
+  document.getElementById("results-sub").textContent=isReviewMode?"You finished the review round!":"You answered all the questions!";
 
   var counts={};
   CATEGORIES.forEach(function(c){counts[c]={ok:0,total:0};});
@@ -271,7 +271,7 @@ function showResults(){
   var lines=CATEGORIES.filter(function(c){return counts[c].total>0;}).map(function(c){
     return "<strong>"+SHORT[c]+":</strong> "+counts[c].ok+"/"+counts[c].total;
   });
-  document.getElementById("part-summary").innerHTML=lines.join("<br>")+"<span class=\"note\">Revise as unidades com menos acertos antes da prova.</span>";
+  document.getElementById("part-summary").innerHTML=lines.join("<br>")+"<span class=\"note\">A lower score in Reading means you need to practise reading the text carefully, not memorise more content.</span>";
 
   var hasErrors=getErrors().length>0;
   document.getElementById("btn-review").style.display=hasErrors?"block":"none";
@@ -283,7 +283,7 @@ function showReview(){
   document.getElementById("results-screen").style.display="none";
   document.getElementById("review-screen").style.display="flex";
   var errs=getErrors();
-  document.getElementById("review-sub").textContent=errs.length+(errs.length===1?" questão errada":" questões erradas")+" de "+activeQuestions.length;
+  document.getElementById("review-sub").textContent=(errs.length===1?"1 question to review":errs.length+" questions to review");
 
   var box=document.getElementById("module-summary-box");
   if(errs.length===0){
@@ -298,32 +298,32 @@ function showReview(){
       var n=errCount[c];
       var w=Math.max(8,Math.round(n/errs.length*100));
       var top=(c===maxC)?" top":"";
-      var badge=(c===maxC)?'<span class="badge">mais erros</span>':"";
-      return '<div class="mod-row"><div class="mod-row-head"><span>'+SHORT[c]+'</span>'+badge+'<span>'+n+' erro'+(n>1?'s':'')+'</span></div><div class="mod-bar-bg"><div class="mod-bar-fill'+top+'" style="width:'+w+'%"></div></div></div>';
+      var badge=(c===maxC)?'<span class="badge">most mistakes</span>':"";
+      return '<div class="mod-row"><div class="mod-row-head"><span>'+SHORT[c]+'</span>'+badge+'<span>'+n+' error'+(n>1?'s':'')+'</span></div><div class="mod-bar-bg"><div class="mod-bar-fill'+top+'" style="width:'+w+'%"></div></div></div>';
     }).join("");
     var note;
-    if(errs.length<=2)note="Foram poucos erros. Revise estes pontos e você está pronto.";
-    else if(maxC==="Interpretação")note="Seu maior ponto de atenção é interpretação de texto. Vale reler as questões com calma antes de responder.";
-    else note="Seu maior ponto de atenção é a "+SHORT[maxC]+". Vale revisar esse conteúdo antes da prova.";
-    box.innerHTML='<div class="module-summary"><h3>📊 Onde você errou mais</h3>'+rows+'<div class="mod-note">'+note+'</div></div>';
+    if(errs.length<=2)note="Just a few mistakes. Review these points and you are ready.";
+    else if(maxC==="Reading")note="Your main focus is reading comprehension. Read the questions carefully before answering.";
+    else note="Your main focus is "+SHORT[maxC]+". Review that content before the test.";
+    box.innerHTML='<div class="module-summary"><h3>📊 Where you missed most</h3>'+rows+'<div class="mod-note">'+note+'</div></div>';
   }
 
   var list=document.getElementById("review-list");
   list.innerHTML="";
   if(errs.length===0){
-    list.innerHTML='<div class="empty-msg">Você não errou nenhuma questão! Não há nada para revisar.</div>';
+    list.innerHTML='<div class="empty-msg">You got everything right! There is nothing to review.</div>';
   }else{
     errs.forEach(function(e){
       var q=e.q;
       var card=document.createElement("div");
       card.className="review-card";
-      var picked=(e.picked!==undefined)?q.options[e.picked]:"Sem resposta";
+      var picked=(e.picked!==undefined)?q.options[e.picked]:"No answer";
       card.innerHTML=
-        '<div class="rc-head">Questão '+(e.idx+1)+' • '+q.module+'</div>'+
+        '<div class="rc-head">Question '+(e.idx+1)+' • '+q.module+'</div>'+
         '<div class="rc-q"></div>'+
-        '<div class="rc-answer wrong"><span class="lbl">Sua resposta</span></div>'+
-        '<div class="rc-answer correct"><span class="lbl">Resposta correta</span></div>'+
-        '<div class="rc-why"><span class="lbl">Por quê</span></div>';
+        '<div class="rc-answer wrong"><span class="lbl">Your answer</span></div>'+
+        '<div class="rc-answer correct"><span class="lbl">Correct answer</span></div>'+
+        '<div class="rc-why"><span class="lbl">Why</span></div>';
       card.querySelector(".rc-q").textContent=q.question;
       var ws=card.querySelector(".rc-answer.wrong");
       ws.appendChild(document.createTextNode(picked));
